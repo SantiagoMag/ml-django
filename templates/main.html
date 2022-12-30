@@ -1,0 +1,1657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplicativo ML en Django</title>
+</head>
+<body>   
+    <hr>
+    <h1>Aplicativo ML con Django</h1>
+    <hr>
+
+    <form action="" method="POST">
+        {% csrf_token %}
+        Edad :  <input type="number" name="age" required><br>
+        Sexo :  <select name="sex">
+                <option value=0>F</option>
+                <option value=1>M</option>
+                </select><br>
+
+        Niveles de presión arterial :   <select name="bp">
+                <option value=0>High</option>
+                <option value=1>Low</option>
+                <option value=2>Normal</option>
+            </select><br>
+
+        Colesterol : <select name="cholesterol">
+                <option value=0>High</option>
+                <option value=1>Normal</option>
+            </select><br>
+        Proporción de sodio a potasio en la sangre : <input type="number" step="any" name="na_to_k" required><br>
+
+        <input type="submit">
+    </form>
+
+    <hr>
+    <h2>Resultado</h2>
+    {% if result %}
+        <p>Según lo ingresado, perteneces al grupo de droga <strong>{{result}}</strong>.</p>
+    {% endif %}
+    <hr>   
+    <h2>Datos de Entrenamiento y Testo utilizados para el Modelo</h2>
+    <hr>
+
+    <table class="table table-bordered table-hover table-condensed">
+        <thead><tr><th title="Field #1">Age</th>
+        <th title="Field #2">Sex</th>
+        <th title="Field #3">BP</th>
+        <th title="Field #4">Cholesterol</th>
+        <th title="Field #5">Na_to_K</th>
+        <th title="Field #6">Drug</th>
+        </tr></thead>
+        <tbody><tr>
+        <td align="right">23</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>HIGH</td>
+        <td align="right">25.355</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">47</td>
+        <td>M</td>
+        <td>LOW</td>
+        <td>HIGH</td>
+        <td align="right">13.093</td>
+        <td>drugC</td>
+        </tr>
+        <tr>
+        <td align="right">47</td>
+        <td>M</td>
+        <td>LOW</td>
+        <td>HIGH</td>
+        <td align="right">10.114</td>
+        <td>drugC</td>
+        </tr>
+        <tr>
+        <td align="right">28</td>
+        <td>F</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">7.798</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">61</td>
+        <td>F</td>
+        <td>LOW</td>
+        <td>HIGH</td>
+        <td align="right">18.043</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">22</td>
+        <td>F</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">8.607</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">49</td>
+        <td>F</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">16.275</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">41</td>
+        <td>M</td>
+        <td>LOW</td>
+        <td>HIGH</td>
+        <td align="right">11.037</td>
+        <td>drugC</td>
+        </tr>
+        <tr>
+        <td align="right">60</td>
+        <td>M</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">15.171</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">43</td>
+        <td>M</td>
+        <td>LOW</td>
+        <td>NORMAL</td>
+        <td align="right">19.368</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">47</td>
+        <td>F</td>
+        <td>LOW</td>
+        <td>HIGH</td>
+        <td align="right">11.767</td>
+        <td>drugC</td>
+        </tr>
+        <tr>
+        <td align="right">34</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">19.199</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">43</td>
+        <td>M</td>
+        <td>LOW</td>
+        <td>HIGH</td>
+        <td align="right">15.376</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">74</td>
+        <td>F</td>
+        <td>LOW</td>
+        <td>HIGH</td>
+        <td align="right">20.942</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">50</td>
+        <td>F</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">12.703</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">16</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">15.516</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">69</td>
+        <td>M</td>
+        <td>LOW</td>
+        <td>NORMAL</td>
+        <td align="right">11.455</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">43</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>HIGH</td>
+        <td align="right">13.972</td>
+        <td>drugA</td>
+        </tr>
+        <tr>
+        <td align="right">23</td>
+        <td>M</td>
+        <td>LOW</td>
+        <td>HIGH</td>
+        <td align="right">7.298</td>
+        <td>drugC</td>
+        </tr>
+        <tr>
+        <td align="right">32</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">25.974</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">57</td>
+        <td>M</td>
+        <td>LOW</td>
+        <td>NORMAL</td>
+        <td align="right">19.128</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">63</td>
+        <td>M</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">25.917</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">47</td>
+        <td>M</td>
+        <td>LOW</td>
+        <td>NORMAL</td>
+        <td align="right">30.568</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">48</td>
+        <td>F</td>
+        <td>LOW</td>
+        <td>HIGH</td>
+        <td align="right">15.036</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">33</td>
+        <td>F</td>
+        <td>LOW</td>
+        <td>HIGH</td>
+        <td align="right">33.486</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">28</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">18.809</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">31</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>HIGH</td>
+        <td align="right">30.366</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">49</td>
+        <td>F</td>
+        <td>NORMAL</td>
+        <td>NORMAL</td>
+        <td align="right">9.381</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">39</td>
+        <td>F</td>
+        <td>LOW</td>
+        <td>NORMAL</td>
+        <td align="right">22.697</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">45</td>
+        <td>M</td>
+        <td>LOW</td>
+        <td>HIGH</td>
+        <td align="right">17.951</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">18</td>
+        <td>F</td>
+        <td>NORMAL</td>
+        <td>NORMAL</td>
+        <td align="right">8.75</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">74</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>HIGH</td>
+        <td align="right">9.567</td>
+        <td>drugB</td>
+        </tr>
+        <tr>
+        <td align="right">49</td>
+        <td>M</td>
+        <td>LOW</td>
+        <td>NORMAL</td>
+        <td align="right">11.014</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">65</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">31.876</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">53</td>
+        <td>M</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">14.133</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">46</td>
+        <td>M</td>
+        <td>NORMAL</td>
+        <td>NORMAL</td>
+        <td align="right">7.285</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">32</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">9.445</td>
+        <td>drugA</td>
+        </tr>
+        <tr>
+        <td align="right">39</td>
+        <td>M</td>
+        <td>LOW</td>
+        <td>NORMAL</td>
+        <td align="right">13.938</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">39</td>
+        <td>F</td>
+        <td>NORMAL</td>
+        <td>NORMAL</td>
+        <td align="right">9.709</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">15</td>
+        <td>M</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">9.084</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">73</td>
+        <td>F</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">19.221</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">58</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">14.239</td>
+        <td>drugB</td>
+        </tr>
+        <tr>
+        <td align="right">50</td>
+        <td>M</td>
+        <td>NORMAL</td>
+        <td>NORMAL</td>
+        <td align="right">15.79</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">23</td>
+        <td>M</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">12.26</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">50</td>
+        <td>F</td>
+        <td>NORMAL</td>
+        <td>NORMAL</td>
+        <td align="right">12.295</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">66</td>
+        <td>F</td>
+        <td>NORMAL</td>
+        <td>NORMAL</td>
+        <td align="right">8.107</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">37</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>HIGH</td>
+        <td align="right">13.091</td>
+        <td>drugA</td>
+        </tr>
+        <tr>
+        <td align="right">68</td>
+        <td>M</td>
+        <td>LOW</td>
+        <td>HIGH</td>
+        <td align="right">10.291</td>
+        <td>drugC</td>
+        </tr>
+        <tr>
+        <td align="right">23</td>
+        <td>M</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">31.686</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">28</td>
+        <td>F</td>
+        <td>LOW</td>
+        <td>HIGH</td>
+        <td align="right">19.796</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">58</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>HIGH</td>
+        <td align="right">19.416</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">67</td>
+        <td>M</td>
+        <td>NORMAL</td>
+        <td>NORMAL</td>
+        <td align="right">10.898</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">62</td>
+        <td>M</td>
+        <td>LOW</td>
+        <td>NORMAL</td>
+        <td align="right">27.183</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">24</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">18.457</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">68</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">10.189</td>
+        <td>drugB</td>
+        </tr>
+        <tr>
+        <td align="right">26</td>
+        <td>F</td>
+        <td>LOW</td>
+        <td>HIGH</td>
+        <td align="right">14.16</td>
+        <td>drugC</td>
+        </tr>
+        <tr>
+        <td align="right">65</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">11.34</td>
+        <td>drugB</td>
+        </tr>
+        <tr>
+        <td align="right">40</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>HIGH</td>
+        <td align="right">27.826</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">60</td>
+        <td>M</td>
+        <td>NORMAL</td>
+        <td>NORMAL</td>
+        <td align="right">10.091</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">34</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>HIGH</td>
+        <td align="right">18.703</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">38</td>
+        <td>F</td>
+        <td>LOW</td>
+        <td>NORMAL</td>
+        <td align="right">29.875</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">24</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">9.475</td>
+        <td>drugA</td>
+        </tr>
+        <tr>
+        <td align="right">67</td>
+        <td>M</td>
+        <td>LOW</td>
+        <td>NORMAL</td>
+        <td align="right">20.693</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">45</td>
+        <td>M</td>
+        <td>LOW</td>
+        <td>NORMAL</td>
+        <td align="right">8.37</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">60</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>HIGH</td>
+        <td align="right">13.303</td>
+        <td>drugB</td>
+        </tr>
+        <tr>
+        <td align="right">68</td>
+        <td>F</td>
+        <td>NORMAL</td>
+        <td>NORMAL</td>
+        <td align="right">27.05</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">29</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>HIGH</td>
+        <td align="right">12.856</td>
+        <td>drugA</td>
+        </tr>
+        <tr>
+        <td align="right">17</td>
+        <td>M</td>
+        <td>NORMAL</td>
+        <td>NORMAL</td>
+        <td align="right">10.832</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">54</td>
+        <td>M</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">24.658</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">18</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">24.276</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">70</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>HIGH</td>
+        <td align="right">13.967</td>
+        <td>drugB</td>
+        </tr>
+        <tr>
+        <td align="right">28</td>
+        <td>F</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">19.675</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">24</td>
+        <td>F</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">10.605</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">41</td>
+        <td>F</td>
+        <td>NORMAL</td>
+        <td>NORMAL</td>
+        <td align="right">22.905</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">31</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">17.069</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">26</td>
+        <td>M</td>
+        <td>LOW</td>
+        <td>NORMAL</td>
+        <td align="right">20.909</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">36</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>HIGH</td>
+        <td align="right">11.198</td>
+        <td>drugA</td>
+        </tr>
+        <tr>
+        <td align="right">26</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">19.161</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">19</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>HIGH</td>
+        <td align="right">13.313</td>
+        <td>drugA</td>
+        </tr>
+        <tr>
+        <td align="right">32</td>
+        <td>F</td>
+        <td>LOW</td>
+        <td>NORMAL</td>
+        <td align="right">10.84</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">60</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>HIGH</td>
+        <td align="right">13.934</td>
+        <td>drugB</td>
+        </tr>
+        <tr>
+        <td align="right">64</td>
+        <td>M</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">7.761</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">32</td>
+        <td>F</td>
+        <td>LOW</td>
+        <td>HIGH</td>
+        <td align="right">9.712</td>
+        <td>drugC</td>
+        </tr>
+        <tr>
+        <td align="right">38</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">11.326</td>
+        <td>drugA</td>
+        </tr>
+        <tr>
+        <td align="right">47</td>
+        <td>F</td>
+        <td>LOW</td>
+        <td>HIGH</td>
+        <td align="right">10.067</td>
+        <td>drugC</td>
+        </tr>
+        <tr>
+        <td align="right">59</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>HIGH</td>
+        <td align="right">13.935</td>
+        <td>drugB</td>
+        </tr>
+        <tr>
+        <td align="right">51</td>
+        <td>F</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">13.597</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">69</td>
+        <td>M</td>
+        <td>LOW</td>
+        <td>HIGH</td>
+        <td align="right">15.478</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">37</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">23.091</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">50</td>
+        <td>F</td>
+        <td>NORMAL</td>
+        <td>NORMAL</td>
+        <td align="right">17.211</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">62</td>
+        <td>M</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">16.594</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">41</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">15.156</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">29</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>HIGH</td>
+        <td align="right">29.45</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">42</td>
+        <td>F</td>
+        <td>LOW</td>
+        <td>NORMAL</td>
+        <td align="right">29.271</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">56</td>
+        <td>M</td>
+        <td>LOW</td>
+        <td>HIGH</td>
+        <td align="right">15.015</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">36</td>
+        <td>M</td>
+        <td>LOW</td>
+        <td>NORMAL</td>
+        <td align="right">11.424</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">58</td>
+        <td>F</td>
+        <td>LOW</td>
+        <td>HIGH</td>
+        <td align="right">38.247</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">56</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>HIGH</td>
+        <td align="right">25.395</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">20</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">35.639</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">15</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">16.725</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">31</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">11.871</td>
+        <td>drugA</td>
+        </tr>
+        <tr>
+        <td align="right">45</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>HIGH</td>
+        <td align="right">12.854</td>
+        <td>drugA</td>
+        </tr>
+        <tr>
+        <td align="right">28</td>
+        <td>F</td>
+        <td>LOW</td>
+        <td>HIGH</td>
+        <td align="right">13.127</td>
+        <td>drugC</td>
+        </tr>
+        <tr>
+        <td align="right">56</td>
+        <td>M</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">8.966</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">22</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">28.294</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">37</td>
+        <td>M</td>
+        <td>LOW</td>
+        <td>NORMAL</td>
+        <td align="right">8.968</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">22</td>
+        <td>M</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">11.953</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">42</td>
+        <td>M</td>
+        <td>LOW</td>
+        <td>HIGH</td>
+        <td align="right">20.013</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">72</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">9.677</td>
+        <td>drugB</td>
+        </tr>
+        <tr>
+        <td align="right">23</td>
+        <td>M</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">16.85</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">50</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>HIGH</td>
+        <td align="right">7.49</td>
+        <td>drugA</td>
+        </tr>
+        <tr>
+        <td align="right">47</td>
+        <td>F</td>
+        <td>NORMAL</td>
+        <td>NORMAL</td>
+        <td align="right">6.683</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">35</td>
+        <td>M</td>
+        <td>LOW</td>
+        <td>NORMAL</td>
+        <td align="right">9.17</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">65</td>
+        <td>F</td>
+        <td>LOW</td>
+        <td>NORMAL</td>
+        <td align="right">13.769</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">20</td>
+        <td>F</td>
+        <td>NORMAL</td>
+        <td>NORMAL</td>
+        <td align="right">9.281</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">51</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>HIGH</td>
+        <td align="right">18.295</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">67</td>
+        <td>M</td>
+        <td>NORMAL</td>
+        <td>NORMAL</td>
+        <td align="right">9.514</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">40</td>
+        <td>F</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">10.103</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">32</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">10.292</td>
+        <td>drugA</td>
+        </tr>
+        <tr>
+        <td align="right">61</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>HIGH</td>
+        <td align="right">25.475</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">28</td>
+        <td>M</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">27.064</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">15</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">17.206</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">34</td>
+        <td>M</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">22.456</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">36</td>
+        <td>F</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">16.753</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">53</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">12.495</td>
+        <td>drugB</td>
+        </tr>
+        <tr>
+        <td align="right">19</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">25.969</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">66</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>HIGH</td>
+        <td align="right">16.347</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">35</td>
+        <td>M</td>
+        <td>NORMAL</td>
+        <td>NORMAL</td>
+        <td align="right">7.845</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">47</td>
+        <td>M</td>
+        <td>LOW</td>
+        <td>NORMAL</td>
+        <td align="right">33.542</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">32</td>
+        <td>F</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">7.477</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">70</td>
+        <td>F</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">20.489</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">52</td>
+        <td>M</td>
+        <td>LOW</td>
+        <td>NORMAL</td>
+        <td align="right">32.922</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">49</td>
+        <td>M</td>
+        <td>LOW</td>
+        <td>NORMAL</td>
+        <td align="right">13.598</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">24</td>
+        <td>M</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">25.786</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">42</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>HIGH</td>
+        <td align="right">21.036</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">74</td>
+        <td>M</td>
+        <td>LOW</td>
+        <td>NORMAL</td>
+        <td align="right">11.939</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">55</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>HIGH</td>
+        <td align="right">10.977</td>
+        <td>drugB</td>
+        </tr>
+        <tr>
+        <td align="right">35</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>HIGH</td>
+        <td align="right">12.894</td>
+        <td>drugA</td>
+        </tr>
+        <tr>
+        <td align="right">51</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">11.343</td>
+        <td>drugB</td>
+        </tr>
+        <tr>
+        <td align="right">69</td>
+        <td>F</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">10.065</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">49</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">6.269</td>
+        <td>drugA</td>
+        </tr>
+        <tr>
+        <td align="right">64</td>
+        <td>F</td>
+        <td>LOW</td>
+        <td>NORMAL</td>
+        <td align="right">25.741</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">60</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">8.621</td>
+        <td>drugB</td>
+        </tr>
+        <tr>
+        <td align="right">74</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">15.436</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">39</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>HIGH</td>
+        <td align="right">9.664</td>
+        <td>drugA</td>
+        </tr>
+        <tr>
+        <td align="right">61</td>
+        <td>M</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">9.443</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">37</td>
+        <td>F</td>
+        <td>LOW</td>
+        <td>NORMAL</td>
+        <td align="right">12.006</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">26</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">12.307</td>
+        <td>drugA</td>
+        </tr>
+        <tr>
+        <td align="right">61</td>
+        <td>F</td>
+        <td>LOW</td>
+        <td>NORMAL</td>
+        <td align="right">7.34</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">22</td>
+        <td>M</td>
+        <td>LOW</td>
+        <td>HIGH</td>
+        <td align="right">8.151</td>
+        <td>drugC</td>
+        </tr>
+        <tr>
+        <td align="right">49</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">8.7</td>
+        <td>drugA</td>
+        </tr>
+        <tr>
+        <td align="right">68</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>HIGH</td>
+        <td align="right">11.009</td>
+        <td>drugB</td>
+        </tr>
+        <tr>
+        <td align="right">55</td>
+        <td>M</td>
+        <td>NORMAL</td>
+        <td>NORMAL</td>
+        <td align="right">7.261</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">72</td>
+        <td>F</td>
+        <td>LOW</td>
+        <td>NORMAL</td>
+        <td align="right">14.642</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">37</td>
+        <td>M</td>
+        <td>LOW</td>
+        <td>NORMAL</td>
+        <td align="right">16.724</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">49</td>
+        <td>M</td>
+        <td>LOW</td>
+        <td>HIGH</td>
+        <td align="right">10.537</td>
+        <td>drugC</td>
+        </tr>
+        <tr>
+        <td align="right">31</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">11.227</td>
+        <td>drugA</td>
+        </tr>
+        <tr>
+        <td align="right">53</td>
+        <td>M</td>
+        <td>LOW</td>
+        <td>HIGH</td>
+        <td align="right">22.963</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">59</td>
+        <td>F</td>
+        <td>LOW</td>
+        <td>HIGH</td>
+        <td align="right">10.444</td>
+        <td>drugC</td>
+        </tr>
+        <tr>
+        <td align="right">34</td>
+        <td>F</td>
+        <td>LOW</td>
+        <td>NORMAL</td>
+        <td align="right">12.923</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">30</td>
+        <td>F</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">10.443</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">57</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">9.945</td>
+        <td>drugB</td>
+        </tr>
+        <tr>
+        <td align="right">43</td>
+        <td>M</td>
+        <td>NORMAL</td>
+        <td>NORMAL</td>
+        <td align="right">12.859</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">21</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">28.632</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">16</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">19.007</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">38</td>
+        <td>M</td>
+        <td>LOW</td>
+        <td>HIGH</td>
+        <td align="right">18.295</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">58</td>
+        <td>F</td>
+        <td>LOW</td>
+        <td>HIGH</td>
+        <td align="right">26.645</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">57</td>
+        <td>F</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">14.216</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">51</td>
+        <td>F</td>
+        <td>LOW</td>
+        <td>NORMAL</td>
+        <td align="right">23.003</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">20</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>HIGH</td>
+        <td align="right">11.262</td>
+        <td>drugA</td>
+        </tr>
+        <tr>
+        <td align="right">28</td>
+        <td>F</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">12.879</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">45</td>
+        <td>M</td>
+        <td>LOW</td>
+        <td>NORMAL</td>
+        <td align="right">10.017</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">39</td>
+        <td>F</td>
+        <td>NORMAL</td>
+        <td>NORMAL</td>
+        <td align="right">17.225</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">41</td>
+        <td>F</td>
+        <td>LOW</td>
+        <td>NORMAL</td>
+        <td align="right">18.739</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">42</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">12.766</td>
+        <td>drugA</td>
+        </tr>
+        <tr>
+        <td align="right">73</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>HIGH</td>
+        <td align="right">18.348</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">48</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">10.446</td>
+        <td>drugA</td>
+        </tr>
+        <tr>
+        <td align="right">25</td>
+        <td>M</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">19.011</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">39</td>
+        <td>M</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">15.969</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">67</td>
+        <td>F</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">15.891</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">22</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">22.818</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">59</td>
+        <td>F</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">13.884</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">20</td>
+        <td>F</td>
+        <td>LOW</td>
+        <td>NORMAL</td>
+        <td align="right">11.686</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">36</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">15.49</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">18</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>HIGH</td>
+        <td align="right">37.188</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">57</td>
+        <td>F</td>
+        <td>NORMAL</td>
+        <td>NORMAL</td>
+        <td align="right">25.893</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">70</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>HIGH</td>
+        <td align="right">9.849</td>
+        <td>drugB</td>
+        </tr>
+        <tr>
+        <td align="right">47</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>HIGH</td>
+        <td align="right">10.403</td>
+        <td>drugA</td>
+        </tr>
+        <tr>
+        <td align="right">65</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">34.997</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">64</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>NORMAL</td>
+        <td align="right">20.932</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">58</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>HIGH</td>
+        <td align="right">18.991</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">23</td>
+        <td>M</td>
+        <td>HIGH</td>
+        <td>HIGH</td>
+        <td align="right">8.011</td>
+        <td>drugA</td>
+        </tr>
+        <tr>
+        <td align="right">72</td>
+        <td>M</td>
+        <td>LOW</td>
+        <td>HIGH</td>
+        <td align="right">16.31</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">72</td>
+        <td>M</td>
+        <td>LOW</td>
+        <td>HIGH</td>
+        <td align="right">6.769</td>
+        <td>drugC</td>
+        </tr>
+        <tr>
+        <td align="right">46</td>
+        <td>F</td>
+        <td>HIGH</td>
+        <td>HIGH</td>
+        <td align="right">34.686</td>
+        <td>DrugY</td>
+        </tr>
+        <tr>
+        <td align="right">56</td>
+        <td>F</td>
+        <td>LOW</td>
+        <td>HIGH</td>
+        <td align="right">11.567</td>
+        <td>drugC</td>
+        </tr>
+        <tr>
+        <td align="right">16</td>
+        <td>M</td>
+        <td>LOW</td>
+        <td>HIGH</td>
+        <td align="right">12.006</td>
+        <td>drugC</td>
+        </tr>
+        <tr>
+        <td align="right">52</td>
+        <td>M</td>
+        <td>NORMAL</td>
+        <td>HIGH</td>
+        <td align="right">9.894</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">23</td>
+        <td>M</td>
+        <td>NORMAL</td>
+        <td>NORMAL</td>
+        <td align="right">14.02</td>
+        <td>drugX</td>
+        </tr>
+        <tr>
+        <td align="right">40</td>
+        <td>F</td>
+        <td>LOW</td>
+        <td>NORMAL</td>
+        <td align="right">11.349</td>
+        <td>drugX</td>
+        </tr>
+        </tbody></table>
+
+</body>
+</html>
